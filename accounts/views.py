@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login as django_login,logout as dja
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+
 # Create your views here.
 def addeducation(request):
     if request.method == 'POST':

@@ -1,6 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Post,Comment
 from accounts.models import UserProfile
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def index(request):
     return render(request,'blog/index.html',{})
@@ -15,12 +17,12 @@ def post(request,slug):
          comment.save()
          return render(request,'blog/post.html',{'post': post})
      
-     
+@login_required  
 def posts(request): 
     if request.method == 'POST':
         body = request.POST['body']
         title = request.POST['body'][:10]
-        post=Post(body=body,title=title,author=UserProfile.objects.last())
+        post=Post(body=body,title=title,author=request.user.userprofile)
         post.save()
         all_posts = Post.objects.all().order_by('-created_at')
         return render(request,'blog/posts.html',{'all_posts': all_posts})
